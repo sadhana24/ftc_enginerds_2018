@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.enginerds.utilities.EngiNerdsConstants;
 
 //------------------------------------------------------------------------------
 // EngiNerdsHardware
@@ -60,6 +61,8 @@ public class EnginNerdsHardware {
     public DcMotor leftRearDrive;
     public DcMotor rightFrontDrive;
     public DcMotor rightRearDrive;
+
+    public DcMotor v_motor_lift_drive;
 
     // Sensors
     private ModernRoboticsI2cGyro gyroSensor;
@@ -127,6 +130,21 @@ public class EnginNerdsHardware {
             SetWarningMessage("right_rear_drive");
             RobotLog.i(p_exeception.getLocalizedMessage());
             rightRearDrive = null;
+        }
+
+        //--------------------------------------------------------------------------
+        // Left Lift Motor.
+        //--------------------------------------------------------------------------
+        try {
+            v_motor_lift_drive = hardwareMap.dcMotor.get(EngiNerdsConstants.LIFT_DRIVE);
+            //v_motor_lift_drive.setDirection(DcMotor.Direction.REVERSE);
+            v_motor_lift_drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //Should prevent sliding down automatically.
+
+        } catch (Exception p_exeception) {
+            SetWarningMessage(EngiNerdsConstants.LIFT_DRIVE);
+            RobotLog.i(p_exeception.getLocalizedMessage());
+
+            v_motor_lift_drive = null;
         }
 
 
@@ -823,6 +841,54 @@ public class EnginNerdsHardware {
         rightRearDrive.setZeroPowerBehavior(initialZeroPowerBehavior);
 
     } //releaseBrake
+
+
+    /**
+     * Set the Lift Motor power.
+     */
+    public void setLiftMotorPower(double lift_power) {
+        if (v_motor_lift_drive != null) {
+            v_motor_lift_drive.setPower(lift_power);
+        }
+    }
+
+    /**
+     * Sets the mode to drive with encoder
+     */
+    public void setLiftWithEncoder() {
+        if (v_motor_lift_drive != null) {
+            v_motor_lift_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+    }
+
+    /**
+     * Resets the lift drive encoder values.
+     */
+    public void resetLiftEncoder() {
+        if (v_motor_lift_drive != null) {
+            v_motor_lift_drive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+    }
+
+    // Raise or Lower the Lift (For Autonomous)
+    public void raiseOrLowerLift(int encoderCount) {
+        setLiftTargetPosition(encoderCount);  //One Rotation Up/Down
+        setLiftModeRunToPosition();
+        setLiftMotorPower(0.8);
+    }
+
+    public void setLiftModeRunToPosition() {
+        if (v_motor_lift_drive != null) {
+            v_motor_lift_drive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+    }
+
+    public void setLiftTargetPosition(int p_lift_count) {
+        if (v_motor_lift_drive != null) {
+            int targetCount = v_motor_lift_drive.getCurrentPosition() + p_lift_count;
+            v_motor_lift_drive.setTargetPosition(targetCount);
+        }
+    }
 
     /**
      * Gyro Drive Testing

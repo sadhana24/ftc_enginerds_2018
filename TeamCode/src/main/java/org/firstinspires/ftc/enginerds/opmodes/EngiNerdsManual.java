@@ -62,12 +62,23 @@ public class EngiNerdsManual extends OpMode {
         robot.mecanumDrive(speed, direction, rotation);
 
         //=====================================================================================
-        // Glyph Servos:
+        // Gamepad2: Lift Motor
+        //=====================================================================================
+        // Lift motor is controlled with one joy stick (Pad2: Right Stick)
+        //float lift_power = robot.scaleMotorPower(-gamepad2.right_stick_y);
+        //robot.setLiftMotorPower(lift_power);
+
+        //=====================================================================================
+        // Lift Motor Run with Encoders:
         //=====================================================================================
         if (gamepad2.x) {
-            telemetry.addData("Gamepad 2 ", "X pressed");
+            telemetry.addData("Gamepad 2 ", "X pressed -> Lift drive with encoder count 500");
             telemetry.update();
+            robot.resetLiftEncoder();
+            robot.setLiftWithEncoder();
+            robot.raiseOrLowerLift(500);
         }
+
         if (gamepad2.y) {
             telemetry.addData("Gamepad 2 ", "Y pressed");
             telemetry.update();
@@ -119,6 +130,7 @@ public class EngiNerdsManual extends OpMode {
             telemetry.addData("Gamepad 2", "Left Bumper Pressed");
             telemetry.update();
         }
+
 
     } // loop
 
