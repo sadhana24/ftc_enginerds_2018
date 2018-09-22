@@ -10,7 +10,7 @@ import org.firstinspires.ftc.enginerds.hardware.EnginNerdsHardware;
 // EngiNerdsManual
 //------------------------------------------------------------------------------
 
-@TeleOp(name = "EngiNerdsManualMec", group = "Mecanum")
+@TeleOp(name = "EngiNerdsManual", group = "Mecanum")
 public class EngiNerdsManual extends OpMode {
 
     public EnginNerdsHardware robot = new EnginNerdsHardware();
@@ -28,7 +28,7 @@ public class EngiNerdsManual extends OpMode {
          */
         robot.init(this, "MODE_TELEOP");
 
-    }
+    } // init
 
     /**
      * The system calls this member repeatedly while the OpMode is running.
@@ -47,12 +47,13 @@ public class EngiNerdsManual extends OpMode {
         //robot.mecanumDrive_Cartesian(gamepad1.left_stick_x,gamepad1.left_stick_y,gamepad1.right_stick_x);
         //robot.mecanumDriveSimple(left_stick_x_value, left_stick_y_value);
 
+        /*
         //Mecanum Drive Complex
-/*        double speed = Math.hypot(-left_stick_x_value, left_stick_y_value);
+        double speed = Math.hypot(-left_stick_x_value, left_stick_y_value);
         double direction = Math.atan2(left_stick_y_value, -left_stick_x_value) - Math.PI / 4;
         double rightX = right_stick_x_value;
-
-        robot.mecanumDrive(speed, direction, rightX);*/
+        robot.mecanumDrive(speed, direction, rightX);
+        */
 
         /* another one to try */
         double speed = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
@@ -99,33 +100,25 @@ public class EngiNerdsManual extends OpMode {
             robot.releaseBrake();
         }
 
-        //=====================================================================================
-        // Relic Servos:
-        //=====================================================================================
-        // Open (raise) top Relic claw (Gamepad2 -> Right Trigger (top button))
         if (gamepad2.right_trigger > 0.5) {
             telemetry.addData("Gamepad 2", "Right Trigger Pressed");
             telemetry.update();
         }
 
-        // Close (bring down) top Relic claw (Gamepad2 -> Right Bumper (bottom button))
         if (gamepad2.right_bumper) {
             telemetry.addData("Gamepad 2", "Right Bumper Pressed");
             telemetry.update();
         }
 
-        // Close bottom Relic claw (Gamepad2 -> Left Trigger (top button))
         if (gamepad2.left_trigger > 0.5) {
             telemetry.addData("Gamepad 2", "Left Trigger Pressed");
             telemetry.update();
         }
 
-        // Release bottom Relic claw (Gamepad2 -> Left Bumper (bottom button))
         if (gamepad2.left_bumper) {
             telemetry.addData("Gamepad 2", "Left Bumper Pressed");
             telemetry.update();
         }
-
 
     } // loop
 
