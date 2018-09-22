@@ -207,6 +207,7 @@ public class EnginNerdsHardware {
         }
 
         return l_scale;
+
     } // scaleMotorPower
 
     /**
@@ -235,9 +236,10 @@ public class EnginNerdsHardware {
         if(rightRearDrive != null) {
             rightRearDrive.setPower(v4);
         }
-    }
 
-    public void mecanumDriveSimple(double xSpeed, double ySpeed){
+    } // mecanumDrive
+
+    public void mecanumDriveSimple(double xSpeed, double ySpeed) {
 
         if (xSpeed == 0.0 && ySpeed == 0.0){
             if(leftFrontDrive != null) {
@@ -288,10 +290,10 @@ public class EnginNerdsHardware {
             }
         }
 
-    }
+    } // mecanumDriveSimple
 
-    public void mecanumDrive_Cartesian(double x, double y, double rotation)
-    {
+    public void mecanumDrive_Cartesian(double x, double y, double rotation) {
+
         double wheelSpeeds[] = new double[4];
 
         wheelSpeeds[0] = x + y + rotation;
@@ -305,10 +307,10 @@ public class EnginNerdsHardware {
         rightFrontDrive.setPower(wheelSpeeds[1]);
         leftRearDrive.setPower(wheelSpeeds[2]);
         rightRearDrive.setPower(wheelSpeeds[3]);
-    }   //mecanumDrive_Cartesian
 
-    private void normalizeSpeeds(double[] wheelSpeeds)
-    {
+    }  //mecanumDrive_Cartesian
+
+    private void normalizeSpeeds(double[] wheelSpeeds) {
         double maxMagnitude = Math.abs(wheelSpeeds[0]);
 
         for (int i = 1; i < wheelSpeeds.length; i++)
@@ -328,9 +330,11 @@ public class EnginNerdsHardware {
                 wheelSpeeds[i] /= maxMagnitude;
             }
         }
-    }   //normalize
 
-    public void gyroDriveSimple(double speed, double distance, double angle){
+    }  //normalize
+
+    public void gyroDriveSimple(double speed, double distance, double angle) {
+
         int     moveCounts;
 
         // Ensure that the opmode is still active
@@ -357,7 +361,7 @@ public class EnginNerdsHardware {
 
         setDriveMotorWithoutEncoder();
 
-    }
+    } //gyroDriveSimple
 
     /**
      *  Method to drive on a fixed compass bearing (angle), based on encoder counts.
@@ -802,19 +806,23 @@ public class EnginNerdsHardware {
 
     // Turn ON Brake Control
     public void setBrake() {
+
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRearDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRearDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    }
+
+    } //setBrake
 
     // Turn OFF Brake Control
     public void releaseBrake() {
+
         leftFrontDrive.setZeroPowerBehavior(initialZeroPowerBehavior);
         leftRearDrive.setZeroPowerBehavior(initialZeroPowerBehavior);
         rightFrontDrive.setZeroPowerBehavior(initialZeroPowerBehavior);
         rightRearDrive.setZeroPowerBehavior(initialZeroPowerBehavior);
-    }
+
+    } //releaseBrake
 
     /**
      * Gyro Drive Testing
@@ -869,6 +877,7 @@ public class EnginNerdsHardware {
         setDrivePower(0, 0);
         logTelemetry("Path", "Complete");
         */
-    }
 
-}
+    } //gyroDriveTest
+
+} //EnginNerdsHardware
