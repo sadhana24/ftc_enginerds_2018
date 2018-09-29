@@ -17,8 +17,7 @@ public class ColorTest extends OpMode {
     ColorSensor colorSensor;    // Hardware Device Object
 
 
-
-    public void init (){
+    public void init() {
         /**
          * Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -28,13 +27,13 @@ public class ColorTest extends OpMode {
 
     }
 
-    public void loop(){
-        if(gamepad2.x){
+    public void loop() {
+        if (gamepad2.x) {
             telemetry.addData("Gamepad 2", "A Button was Pressed");
             telemetry.update();
 
             //an array that has three values: hue, saturation, and value
-            float hsvValues[] = {0F,0F,0F};
+            float hsvValues[] = {0F, 0F, 0F};
 
             //a reference to the hsvValues
             final float values[] = hsvValues;
@@ -45,22 +44,29 @@ public class ColorTest extends OpMode {
             // turn the LED on in the beginning, just so user will know that the sensor is active.
             colorSensor.enableLed(true);
 
-            // convert the RGB values to HSV values.
-            Color.RGBToHSV(colorSensor.red(), colorSensor.green(), colorSensor.blue(), hsvValues);
+            if (colorSensor != null) {
 
-            // send the info back to driver station using telemetry function.
-            telemetry.addData("LED", true ? "On" : "Off");
-            telemetry.addData("Clear", colorSensor.alpha());
-            telemetry.addData("Red  ", colorSensor.red());
-            telemetry.addData("Green", colorSensor.green());
-            telemetry.addData("Blue ", colorSensor.blue());
-            telemetry.addData("Hue", hsvValues[0]);
+                // convert the RGB values to HSV values.
+                Color.RGBToHSV(colorSensor.red(), colorSensor.green(), colorSensor.blue(), hsvValues);
 
-            telemetry.update();
+                // send the info back to driver station using telemetry function.
+                telemetry.addData("LED", true ? "On" : "Off");
+                telemetry.addData("Clear", colorSensor.alpha());
+                telemetry.addData("Red  ", colorSensor.red());
+                telemetry.addData("Green", colorSensor.green());
+                telemetry.addData("Blue ", colorSensor.blue());
+                telemetry.addData("Hue", hsvValues[0]);
+
+                telemetry.update();
+
+            } else {
+                telemetry.addData("Color Sensor is null.", hsvValues[0]);
+            }
 
         }
 
     }
-
-
 }
+
+
+
